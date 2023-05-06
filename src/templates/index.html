@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}
+sklep
+{% endblock %}
+
+{% block nav %}
+<a class="nav-item nav-link active" href="/">Sklep</a>
+<a class="nav-item nav-link" href="/admin">Zaloguj</a>
+<!--
+<a class="nav-item nav-link" href="/transakcje">Transakcje</a>-->
+{% endblock %}
+
+{% block header %}
+<h2>Witaj w sklepie z winami</h2>
+{% endblock %}
+
+
+{% block content %}
+<!--
+<div class="row">
+    <h4>Dodaj cenę wina:</h4>
+    <form action="/" method="post">
+        <div class="row">
+            <div class="col">
+                <select class="form-select" name="id_wina">
+                    <option selected value="nie_wybrano">Wybierz wino</option>
+                    {%for i in range(0, wina_bez_ceny[1]) %}
+                    <option value={{wina_bez_ceny[0][i][0]}}>{{wina_bez_ceny[0][i][1]}}</option>
+                    {%endfor%}
+                </select>
+            </div>
+
+            <div class="col">
+                <input type="text" name="cena" class="form-control" placeholder="cena">
+            </div>
+
+            <div class="col">
+                <input type="submit" name="btn" class="btn btn-outline-danger" value="Dodaj cenę">
+            </div>
+        </div>
+    </form>
+</div>
+-->
+
+<div class="row">
+    <h3>Nasza oferta:</h3>
+    {%for i in range(0, all_wina_size) %}
+    <div class="card" style="width: 18rem;">
+        <img src="{{url_for('static', filename=all_wina_list[i].zdjecie)}}" class="card-img-top" alt="brak zdjecia" width="200" height="300">
+        <div class="card-body">
+            <h5 class="card-title">{{all_wina_list[i].nazwa}}</h5>
+            <p class="card-text">Cena: {{all_wina_list[i].cena}} zł</p>
+            <a href="#" class="btn btn-primary">Zamów</a>
+        </div>
+    </div>
+    {%endfor%}
+</div>
+
+{% endblock %}

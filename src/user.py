@@ -1,0 +1,2 @@
+LOGIN = "pracownik"
+PASSWORD = "pracownik"

@@ -1,0 +1,236 @@
+{% extends 'base.html' %}
+
+{% block title %}
+magazyn
+{% endblock %}
+
+{% block nav %}
+<a class="nav-item nav-link" href="/">Sklep</a>
+<a class="nav-item nav-link active" href="/magazyn">Magazyn</a>
+<a class="nav-item nav-link" href="/transakcje">Transakcje</a>
+{% endblock %}
+
+{% block header %}
+<h2>Witaj w sklepie z winami</h2>
+{% endblock %}
+
+
+{% block content %}
+<div class="row">
+
+    <br><br><br>
+    <h4>Dodawanie nowego rodzaju wina:</h4>
+
+    <form action="/magazyn" method="post">
+        <div class="row">
+            <div class="col">
+                <input type="text" name="nazwa_wina" class="form-control" placeholder="Nazwa wina"><br>
+            </div>
+
+            <!-- kraje -->
+            <div class="col">
+                <select class="form-select" name="kraj">
+                    {%for i in range(0, kraje[1]) %}
+                    <option value={{kraje[0][i][0]}}>{{kraje[0][i][1]}}</option>
+                    {%endfor%}
+                </select>
+            </div>
+
+            <!-- gatunki -->
+            <div class="col">
+                <select class="form-select" name="gatunek">
+                    {%for i in range(0, gatunki[1]) %}
+                    <option value={{gatunki[0][i][0]}}>{{gatunki[0][i][1]}}</option>
+                    {%endfor%}
+                </select>
+            </div>
+
+            <!-- słodkość -->
+            <div class="col">
+                <select class="form-select" name="slodkosc">
+                    {%for i in range(0, slodkosc[1]) %}
+                    <option value={{slodkosc[0][i][0]}}>{{slodkosc[0][i][1]}}</option>
+                    {%endfor%}
+                </select>
+            </div>
+            <div class="col">
+                <input type="submit" name="btn" class="btn btn-outline-success" value="Dodaj wino">
+            </div>
+        </div>
+</div>
+</form>
+</div>
+
+<!-- deleting a wine type from the database -->
+<div class="row">
+    <h4>Usuwanie wina:</h4>
+    <form action="/magazyn" method="post">
+        <div class="row">
+            <div class="col">
+                <select class="form-select" name="id_wina">
+                    <option selected value="nie_wybrano">Wybierz wino do usunięcia</option>
+                    {%for i in range(0, wina[1]) %}
+                    <option value={{wina[0][i][0]}}>{{wina[0][i][1]}}</option>
+                    {%endfor%}
+                </select>
+            </div>
+
+            <div class="col">
+                <input type="submit" name="btn" class="btn btn-outline-danger" value="Usuń wino">
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<!-- adding a wine delivery to the warehouse -->
+<div class="row">
+    <h4>Dodawanie nowej dostawy:</h4>
+
+    <form action="/magazyn" method="post">
+        <div class="row">
+            <!-- wino -->
+            <div class="col">
+                <select class="form-select" name="id_wina">
+                    <option selected value="nie_wybrano">Wybierz wino</option>
+                    {%for i in range(0, wina[1]) %}
+                    <option value={{wina[0][i][0]}}>{{wina[0][i][1]}}</option>
+                    {%endfor%}
+                </select>
+            </div>
+
+            <!-- nr regału -->
+            <div class="col">
+                <input type="text" name="regal" class="form-control" placeholder="nr regału">
+            </div>
+
+            <!-- ilość -->
+            <div class="col">
+                <input type="text" name="ilosc" class="form-control" placeholder="ilość butelek">
+            </div>
+
+            <!-- nr partii -->
+            <div class="col">
+                <input type="text" name="partia" class="form-control" placeholder="nr partii">
+            </div>
+            <div class="col">
+                <input type="submit" name="btn" class="btn btn-outline-success" value="Dodaj dostawę">
+            </div>
+        </div>
+
+
+    </form>
+</div>
+
+
+<!-- displaying the stock status -->
+<div class="row">
+    <h4>Stan magazynu:</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Nazwa wina</th>
+                <th scope="col">Ilość</th>
+                <th scope="col">Nr regału</th>
+                <th scope="col">Nr partii</th>
+                <th scope="col">#</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for i in range(0, magazyn[1]) %}
+            <tr>
+                <th scope="row">{{magazyn[0][i][1]}}</th>
+                <td>{{magazyn[0][i][2]}}</td>
+                <td>{{magazyn[0][i][3]}}</td>
+                <td>{{magazyn[0][i][4]}}</td>
+                <td>
+                    <form action="/magazyn" method="post">
+                        <input type="text" name="nr_partii" value={{magazyn[0][i][4]}} hidden>
+                        <input type="submit" name="btn" class="btn btn-outline-danger" value="Wycofaj">
+                    </form>
+
+                </td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+</div>
+
+<!-- storage losses -->
+<div class="row">
+    <h4>Straty magazynowe:</h4>
+
+    <form action="/magazyn" method="post">
+        <div class="row">
+            <!-- wino -->
+            <div class="col">
+                <select class="form-select" name="id_wina">
+                    <option selected value="nie_wybrano">Wybierz wino</option>
+                    {%for i in range(0, wina[1]) %}
+                    <option value={{wina[0][i][0]}}>{{wina[0][i][1]}}</option>
+                    {%endfor%}
+                </select>
+            </div>
+
+            <!-- ilość -->
+            <div class="col">
+                <input type="text" name="ilosc" class="form-control" placeholder="ilosc"><br>
+            </div>
+
+            <!-- nr partii -->
+            <div class="col">
+                <select class="form-select" name="nr_partii">
+                    <option selected value="nie_wybrano">Wybierz nr partii</option>
+                    {%for i in range(0, magazyn[1]) %}
+                    <option value={{magazyn[0][i][4]}}>{{magazyn[0][i][4]}}</option>
+                    {%endfor%}
+                </select>
+            </div>
+
+            <!-- delikwent -->
+            <div class="col">
+                <input type="text" name="delikwent" class="form-control" placeholder="delikwent"><br>
+            </div>
+            <div class="col">
+                <input type="submit" name="btn" class="btn btn-outline-danger" value="Zgłoś straty">
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="row">
+    <div class="row" style="margin-bottom: 0;">
+        <div class="col">
+            <h4>Tabela strat:</h4>
+        </div>
+        <div class="col">
+            <form action="/magazyn" method="post">
+                <input style="float: right;" type="submit" name="btn" class="btn btn-outline-danger"
+                    value="Wyczyść tabelę strat">
+            </form>
+        </div>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Nazwa wina</th>
+                <th scope="col">Ilość</th>
+                <th scope="col">Nr partii</th>
+                <th scope="col">delikwent</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for i in range(0, straty[1]) %}
+            <tr>
+                <th scope="row">{{straty[0][i][1]}}</th>
+                <td>{{straty[0][i][3]}}</td>
+                <td>{{straty[0][i][2]}}</td>
+                <td>{{straty[0][i][4]}}</td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

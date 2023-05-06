@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block title %}
+transakcje
+{% endblock %}
+
+{% block nav %}
+<a class="nav-item nav-link" href="/">Sklep</a>
+<a class="nav-item nav-link" href="/magazyn">Magazyn</a>
+<a class="nav-item nav-link active" href="/transakcje">Transakcje</a>
+{% endblock %}
+
+{% block header %}
+<h2>Transakcje</h2>
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="row">
+    <h4>Dodawanie wina do aktualnego zamówienia:</h4>
+    <form action="/transakcje" method="post">
+        <div class="row">
+            <div class="col">
+                <select class="form-select" name="id_wina">
+                    <option selected value="nie_wybrano">Wybierz wino</option>
+                    {%for i in range(0, wina[1]) %}
+                    <option value={{wina[0][i][0]}}>{{wina[0][i][1]}}</option>
+                    {%endfor%}
+                </select>
+            </div>
+
+            <!-- ilość -->
+            <div class="col">
+                <input type="text" name="ilosc" class="form-control" placeholder="ilość butelek">
+            </div>
+
+            <div class="col">
+                <input type="submit" name="btn" class="btn btn-outline-success" value="Dodaj do zamówienia">
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="row">
+    <div class="row" style="margin-bottom: 0;">
+        <div class="col">
+            <h4>Aktualne zamówienie</h4>
+        </div>
+        <div class="col">
+            <form action="/transakcje" method="post">
+                <input style="float: right;" type="submit" name="btn" class="btn btn-outline-danger"
+                    value="Anuluj zamówienie">
+            </form>
+        </div>
+    </div>
+    
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Nr transakcji</th>
+                <th scope="col">Nazwa wina</th>
+                <th scope="col">Ilość</th>
+                <th scope="col">Nr partii</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for i in range(0, sprzedaz[1]) %}
+            <tr>
+                <td>{{sprzedaz[0][i][0]}}</td>
+                <td>{{sprzedaz[0][i][1]}}</td>
+                <th scope="row">{{sprzedaz[0][i][2]}}</th>
+                <td>{{sprzedaz[0][i][3]}}</td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+</div>
+
+<div class="row">
+    <form action="/transakcje" method="post">
+        <div class="row">
+            <div class="col">
+                <select class="form-select" name="platnosc">
+                    <option selected value="nie_wybrano">Wybierz forme płatności</option>
+                    <option value="1">gotówka</option>
+                    <option value="2">karta</option>
+                </select>
+            </div>
+
+            <!-- nr konta -->
+            <div class="col">
+                <input type="text" name="nr_konta" class="form-control" placeholder="nr konta">
+            </div>
+
+            <div class="col">
+                <input type="submit" name="btn" class="btn btn-outline-success" value="Potwierdź zamówienie">
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="row">
+    <h4>Historia transakcji</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Nr transakcji</th>
+                <th scope="col">Nazwa wina</th>
+                <th scope="col">Ilość</th>
+                <th scope="col">Nr partii</th>
+                <th scope="col">Cena</th>
+                <th scope="col">Forma płatności</th>
+                <th scope="col">Nr konta</th>
+                <th scope="col">Data</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for i in range(0, transakcje[1]) %}
+            <tr>
+                <td>{{transakcje[0][i][0]}}</td>
+                <td>{{transakcje[0][i][1]}}</td>
+                <th scope="row">{{transakcje[0][i][2]}}</th>
+                <td>{{transakcje[0][i][3]}}</td>
+                <td>{{transakcje[0][i][4]}} zł</td>
+                <td>{{transakcje[0][i][5]}}</td>
+                <td>{{transakcje[0][i][6]}}</td>
+                <td>{{transakcje[0][i][7]}}</td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}
